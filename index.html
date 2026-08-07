@@ -1,434 +1,681 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
-  <title>BG Jobs | Latest Sarkari Jobs, Admit Card & Results 2026</title>
-  <meta name="description" content="BG Jobs: Get latest updates on Sarkari Result, Railway, SSC, Bank, MPESB, Police Govt Jobs, Admit Cards, Answer Keys & Syllabus.">
-  <meta name="keywords" content="Sarkari Result, BG Jobs, MPESB Patwari, Bank Jobs, SSC CGL 2026, Railway Recruitment, Admit Card, Results 2026">
+  <title>BG Jobs | Professional Govt Job Portal – Admit Card, Result 2026</title>
+  <meta name="description" content="BG Jobs: Professionally designed portal for Sarkari Result, Railway, SSC, Bank, MPESB, Police Govt Jobs, Admit Cards, Answer Keys, Syllabus & Books.">
+  <meta name="keywords" content="Sarkari Result, BG Jobs, MPESB Patwari, Bank Jobs, SSC CGL 2026, Railway Recruitment, Admit Card, Results 2026, Govt Jobs, Books">
   <meta name="author" content="BG Jobs">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#0b5e8a">
+  <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://bgsarkariresult.github.io/bgjob/">
-
-  <meta property="og:title" content="BG Jobs - Latest Sarkari Jobs, Results & Admit Card 2026">
-  <meta property="og:description" content="Find all latest government job notifications, admit cards, and results on BG Jobs.">
+  <meta property="og:title" content="BG Jobs - Professional Govt Job Portal | Admit Card & Results 2026">
+  <meta property="og:description" content="All latest Government Job notifications, Admit Cards, Results and Books in a professional theme with dark/light mode.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://bgsarkariresult.github.io/bgjob/">
   <meta property="og:site_name" content="BG Jobs">
-
-  <!-- Professional Font & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
   <style>
-    /* Reset & Professional Base */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
+    /* Light Mode (Default) */
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f5;
+      --bg-card: #ffffff;
+      --text-primary: #1a1a1a;
+      --text-secondary: #555555;
+      --border-color: #e0e0e0;
+      --ticker-bg: #ffffff;
+      --ticker-text: #1a1a1a;
+      --card-border: #e8e8e8;
+      --card-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      --hover-shadow: 0 18px 32px rgba(255,107,0,0.12);
+      --job-link-color: #1a1a1a;
+      --job-link-hover: #ff6b00;
+      --badge-new-bg: #e8f5e9;
+      --badge-new-text: #1b5e20;
+      --badge-new-border: #4caf50;
+      --badge-hot-bg: #ffebee;
+      --badge-hot-text: #b71c1c;
+      --badge-hot-border: #ef5350;
+    }
+
+    /* Dark Mode */
+    body.dark-mode {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #0f0f0f;
+      --bg-card: #141414;
+      --text-primary: #e0e0e0;
+      --text-secondary: #aaaaaa;
+      --border-color: #2a2a2a;
+      --ticker-bg: #1a1a1a;
+      --ticker-text: #dddddd;
+      --card-border: #2a2a2a;
+      --card-shadow: 0 8px 24px rgba(0,0,0,0.7);
+      --hover-shadow: 0 18px 32px rgba(255,107,0,0.2);
+      --job-link-color: #f0f0f0;
+      --job-link-hover: #ff6b00;
+      --badge-new-bg: #1b3a1b;
+      --badge-new-text: #a5d6a7;
+      --badge-new-border: #4caf50;
+      --badge-hot-bg: #3a1b1b;
+      --badge-hot-text: #ef9a9a;
+      --badge-hot-border: #ef5350;
+    }
+
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f4f7fc;
-      color: #1e293b;
-      line-height: 1.5;
+      font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background 0.35s ease, color 0.35s ease;
     }
+
     .container {
       max-width: 1300px;
       margin: 0 auto;
       padding: 0 24px;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    ul {
-      list-style: none;
+      width: 100%;
     }
 
-    /* Header Professional Style */
+    /* Header - Always Dark */
     .site-header {
-      background: #ffffff;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.03);
+      background: #0d0d0d;
+      border-bottom: 2px solid #ff6b00;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
       position: sticky;
       top: 0;
       z-index: 50;
-      border-bottom: 1px solid #e9eef3;
     }
-    .header-flex {
+
+    .header-top {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
       padding: 16px 24px;
-      gap: 20px;
+      gap: 16px;
     }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
     .logo a {
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: 2.2rem;
+      font-weight: 800;
+      text-decoration: none;
       letter-spacing: -0.5px;
-      color: #0b5e8a;
+      color: #ffffff;
       display: flex;
       align-items: baseline;
       gap: 4px;
     }
-    .logo a span {
-      background: #0b5e8a;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 8px;
-      font-size: 1.8rem;
-      font-weight: 700;
+
+    .logo span {
+      background: #ff6b00;
+      color: #0a0a0a;
+      padding: 4px 16px;
+      border-radius: 40px;
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-left: 4px;
     }
+
+    /* Dark/Light Toggle Button */
+    .mode-toggle {
+      background: #ff6b00;
+      border: 2px solid #ff6b00;
+      color: #0a0a0a;
+      font-size: 1rem;
+      padding: 10px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .mode-toggle:hover {
+      background: #ff8533;
+      border-color: #ff8533;
+      box-shadow: 0 4px 16px rgba(255,107,0,0.4);
+    }
+
+    .mode-toggle .icon {
+      font-size: 1.2rem;
+    }
+
     .search-box {
       display: flex;
       align-items: center;
-      background: #f1f5f9;
-      border-radius: 40px;
-      padding: 6px 6px 6px 20px;
-      border: 1px solid #dce3eb;
-      transition: all 0.2s;
-      width: 360px;
-      max-width: 100%;
+      background: #1a1a1a;
+      border-radius: 50px;
+      padding: 4px 6px 4px 22px;
+      box-shadow: 0 4px 16px rgba(255, 107, 0, 0.15);
+      min-width: 300px;
+      border: 1px solid #333;
     }
-    .search-box:focus-within {
-      border-color: #0b5e8a;
-      background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(11,94,138,0.1);
-    }
+
     .search-box input {
       border: none;
-      background: transparent;
-      padding: 10px 0;
-      font-size: 0.95rem;
-      width: 100%;
       outline: none;
-      font-weight: 500;
+      font-size: 1rem;
+      width: 100%;
+      background: transparent;
+      color: #ffffff;
     }
+
+    .search-box input::placeholder {
+      color: #999;
+    }
+
     .search-box button {
-      background: #0b5e8a;
+      background: #ff6b00;
       border: none;
-      color: white;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+      color: #0a0a0a;
+      font-size: 1.2rem;
+      padding: 12px 18px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: background 0.2s;
-    }
-    .search-box button:hover {
-      background: #0a4a6e;
+      font-weight: bold;
     }
 
-    /* Navigation */
-    .main-nav {
-      background: #0b5e8a;
+    .search-box button:hover {
+      background: #ff8533;
     }
+
+    .main-nav {
+      background: #111111;
+      border-top: 1px solid #222;
+    }
+
     .nav-links {
       display: flex;
-      align-items: center;
-      gap: 8px;
       flex-wrap: wrap;
-      padding: 4px 24px;
+      gap: 8px;
+      padding: 14px 24px;
     }
+
     .nav-links a {
-      color: rgba(255,255,255,0.9);
-      padding: 14px 20px;
+      color: #cccccc;
+      text-decoration: none;
       font-weight: 600;
       font-size: 0.95rem;
+      padding: 10px 22px;
       border-radius: 30px;
-      transition: all 0.2s;
-      display: inline-block;
-      letter-spacing: 0.3px;
+      transition: all 0.25s;
+      background: transparent;
     }
+
+    .nav-links a.active,
     .nav-links a:hover {
-      background: rgba(255,255,255,0.15);
-      color: white;
-    }
-    .nav-links a.active {
-      background: white;
-      color: #0b5e8a;
+      background: #ff6b00;
+      color: #0a0a0a;
+      box-shadow: 0 4px 16px rgba(255, 107, 0, 0.5);
       font-weight: 700;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
     /* Ticker */
     .ticker-wrapper {
-      background: #fff7ed;
-      border-bottom: 1px solid #fed7aa;
+      background: var(--ticker-bg);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      overflow: hidden;
+      transition: background 0.35s ease;
     }
+
     .ticker-flex {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 12px 24px;
-      font-weight: 500;
-    }
-    .ticker-label {
-      background: #ea580c;
-      color: white;
-      padding: 4px 18px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.4px;
+      gap: 20px;
+      padding: 14px 24px;
       white-space: nowrap;
     }
-    .ticker-content a {
-      color: #0b5e8a;
-      font-weight: 600;
-      margin-right: 24px;
-      font-size: 0.95rem;
+
+    .ticker-label {
+      background: #ff3b30;
+      color: white;
+      font-weight: 700;
+      padding: 8px 22px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+      z-index: 2;
+      box-shadow: 0 4px 12px rgba(255,59,48,0.3);
     }
+
+    .ticker-scroll-container {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ticker-content {
+      display: flex;
+      gap: 40px;
+      animation: scrollTicker 25s linear infinite;
+      width: max-content;
+    }
+
+    .ticker-content a {
+      color: var(--ticker-text);
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.2s;
+      font-size: 0.98rem;
+    }
+
     .ticker-content a:hover {
+      color: #ff6b00;
       text-decoration: underline;
     }
 
-    /* Main Grid */
-    .main-content {
-      flex: 1;
-      padding: 32px 24px 48px;
+    .ticker-separator {
+      color: #cccccc;
+      font-weight: 400;
     }
+
+    @keyframes scrollTicker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 36px 0 48px;
+      background: var(--bg-secondary);
+      transition: background 0.35s ease;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 28px;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .section-title span {
+      color: #ff6b00;
+    }
+
     .job-grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 28px;
     }
+
     .job-card-box {
-      background: white;
-      border-radius: 24px;
-      box-shadow: 0 10px 25px -8px rgba(0,0,0,0.05);
-      padding: 24px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid #edf2f9;
-      display: flex;
-      flex-direction: column;
+      background: var(--bg-card);
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.35s ease, border-color 0.25s;
+      border: 1px solid var(--card-border);
     }
+
     .job-card-box:hover {
-      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);
-      transform: translateY(-3px);
+      transform: translateY(-6px);
+      box-shadow: var(--hover-shadow);
+      border-color: #ff6b00;
     }
+
     .box-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 22px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #f1f5f9;
-    }
-    .box-header h2 {
-      font-size: 1.4rem;
+      justify-content: space-between;
+      padding: 18px 24px;
+      color: white;
       font-weight: 700;
+    }
+
+    .box-header h2 {
+      font-size: 1.3rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
+
     .box-header a {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #0b5e8a;
-      background: #e6f0f7;
-      padding: 7px 16px;
+      color: white;
+      background: rgba(255,255,255,0.18);
+      padding: 6px 16px;
       border-radius: 30px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
       transition: 0.2s;
     }
+
     .box-header a:hover {
-      background: #0b5e8a;
-      color: white;
+      background: rgba(255,255,255,0.35);
     }
 
-    .bg-green h2 i { color: #10b981; }
-    .bg-blue h2 i { color: #3b82f6; }
-    .bg-red h2 i { color: #ef4444; }
+    .bg-green {
+      background: linear-gradient(135deg, #1b5e20, #2e7d32);
+      border-bottom: 2px solid #ff6b00;
+    }
+    .bg-blue {
+      background: linear-gradient(135deg, #0d47a1, #1565c0);
+      border-bottom: 2px solid #ff6b00;
+    }
+    .bg-red {
+      background: linear-gradient(135deg, #b71c1c, #c62828);
+      border-bottom: 2px solid #ff6b00;
+    }
+    .bg-purple {
+      background: linear-gradient(135deg, #4a148c, #6a1b9a);
+      border-bottom: 2px solid #ff6b00;
+    }
+
+    .job-list {
+      list-style: none;
+      padding: 18px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
 
     .job-list li {
-      padding: 14px 0;
-      border-bottom: 1px solid #f1f5f9;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+      transition: border-color 0.35s ease;
     }
     .job-list li:last-child {
       border-bottom: none;
+      padding-bottom: 0;
     }
-    .job-list li a {
-      font-weight: 500;
-      color: #1e293b;
+
+    .job-list a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--job-link-color);
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
+      justify-content: space-between;
       gap: 10px;
-      width: 100%;
+      font-size: 0.96rem;
       transition: color 0.2s;
     }
-    .job-list li a:hover {
-      color: #0b5e8a;
+
+    .job-list a:hover {
+      color: var(--job-link-hover);
     }
+
     .badge {
       font-size: 0.7rem;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 40px;
-      letter-spacing: 0.3px;
+      padding: 5px 12px;
+      border-radius: 30px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
+
     .badge.new {
-      background: #dcfce7;
-      color: #15803d;
+      background: var(--badge-new-bg);
+      color: var(--badge-new-text);
+      border: 1px solid var(--badge-new-border);
     }
     .badge.hot {
-      background: #fee2e2;
-      color: #b91c1c;
+      background: var(--badge-hot-bg);
+      color: var(--badge-hot-text);
+      border: 1px solid var(--badge-hot-border);
     }
 
-    /* Footer */
-    .site-footer {
-      background: #0f172a;
-      color: #cbd5e1;
-      padding: 24px 0;
+    footer {
+      background: #0d0d0d;
+      color: #aaaaaa;
       text-align: center;
-      font-size: 0.9rem;
-      font-weight: 500;
-      margin-top: auto;
-    }
-    .footer-content p {
-      opacity: 0.9;
+      padding: 28px 24px;
+      border-top: 3px solid #ff6b00;
     }
 
-    @media (max-width: 650px) {
-      .header-flex {
+    .footer-content p {
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-top {
         flex-direction: column;
-        align-items: stretch;
+        align-items: flex-start;
+      }
+      .header-left {
+        width: 100%;
+        justify-content: space-between;
       }
       .search-box {
         width: 100%;
+        min-width: auto;
       }
       .nav-links {
         justify-content: center;
       }
-      .ticker-flex {
-        flex-direction: column;
-        align-items: flex-start;
+      .job-grid-container {
+        grid-template-columns: 1fr;
+        padding: 0 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo a {
+        font-size: 1.8rem;
+      }
+      .logo span {
+        font-size: 1.4rem;
+        padding: 3px 12px;
+      }
+      .mode-toggle {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+      }
+    }
+
+    @supports (-webkit-touch-callout: none) {
+      body {
+        -webkit-text-size-adjust: 100%;
       }
     }
   </style>
 </head>
 <body>
-
   <header class="site-header">
-    <div class="container header-flex">
-      <div class="logo">
-        <a href="index.html">BG <span>Jobs</span></a>
-      </div>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search Jobs, Results, Admit Card..." aria-label="Search">
-        <button type="button" id="searchBtn" aria-label="Search"><i class="fas fa-search"></i></button>
+    <div class="container">
+      <div class="header-top">
+        <div class="header-left">
+          <h1 class="logo">
+            <a href="index.html">BG <span>Jobs</span></a>
+          </h1>
+          <button class="mode-toggle" id="modeToggle" title="Toggle Dark/Light Mode" aria-label="Dark/Light Mode Switch">
+            <span class="icon">🌙</span> Dark Mode
+          </button>
+        </div>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search Jobs, Results, Admit Card...">
+          <button type="button" id="searchBtn" aria-label="Search">🔍</button>
+        </div>
       </div>
     </div>
     <nav class="main-nav">
       <div class="container nav-links">
-        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-        <a href="jobs/index.html"><i class="fas fa-briefcase"></i> Latest Jobs</a>
-        <a href="results/index.html"><i class="fas fa-chart-bar"></i> Result</a>
-        <a href="admit-card/index.html"><i class="fas fa-id-card"></i> Admit Card</a>
-        <a href="answer-key/index.html"><i class="fas fa-key"></i> Answer Key</a>
-        <a href="syllabus/index.html"><i class="fas fa-book-open"></i> Syllabus</a>
+        <a href="index.html" class="active">Home</a>
+        <a href="jobs/index.html">Latest Jobs</a>
+        <a href="results/index.html">Result</a>
+        <a href="admit-card/index.html">Admit Card</a>
+        <a href="answer-key/index.html">Answer Key</a>
+        <a href="syllabus/index.html">Syllabus</a>
+        <a href="books/index.html">Books</a>
       </div>
     </nav>
   </header>
 
   <div class="ticker-wrapper">
     <div class="container ticker-flex">
-      <span class="ticker-label"><i class="fas fa-bolt"></i> Latest News</span>
-      <div class="ticker-content">
-        <a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">Indian Army SSC (Tech)-68 Notification Out</a>
-        <a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">MPESB Patwari Recruitment 2026 Apply Online</a>
+      <span class="ticker-label">🔥 Latest Jobs</span>
+      <div class="ticker-scroll-container">
+        <div class="ticker-content">
+          <a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">Indian Army SSC (Tech)-68 Notification Out</a>
+          <span class="ticker-separator">|</span>
+          <a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">MPESB Patwari Recruitment 2026 (200 Posts)</a>
+          <span class="ticker-separator">|</span>
+          <a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">Bank of India Credit Officer Admit Card 2026</a>
+          <span class="ticker-separator">|</span>
+          <a href="books/ssc-cgl-preparation-books-2026-best-recommended.html">SSC CGL Best Books 2026 - Recommended</a>
+          <span class="ticker-separator">|</span>
+          <!-- Duplicate for seamless loop -->
+          <a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">Indian Army SSC (Tech)-68 Notification Out</a>
+          <span class="ticker-separator">|</span>
+          <a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">MPESB Patwari Recruitment 2026 (200 Posts)</a>
+          <span class="ticker-separator">|</span>
+          <a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">Bank of India Credit Officer Admit Card 2026</a>
+          <span class="ticker-separator">|</span>
+          <a href="books/ssc-cgl-preparation-books-2026-best-recommended.html">SSC CGL Best Books 2026 - Recommended</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <main class="container main-content">
-    <div class="job-grid-container">
-      
-      <!-- Latest Jobs Card -->
-      <section class="job-card-box">
-        <div class="box-header bg-green">
-          <h2><i class="fas fa-star"></i> Latest Jobs</h2>
-          <a href="jobs/index.html">View All <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <ul class="job-list">
-          <li><a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html"><i class="fas fa-circle" style="font-size: 0.5rem; color: #10b981;"></i> Indian Army SSC (Tech)-68 Men Recruitment <span class="badge new">New</span></a></li>
-          <li><a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html"><i class="fas fa-circle" style="font-size: 0.5rem; color: #10b981;"></i> MPESB Patwari Recruitment 2026 (200 Posts) <span class="badge new">New</span></a></li>
-        </ul>
-      </section>
+  <main>
+    <div class="container">
+      <h2 class="section-title">Explore <span>BG Jobs</span> Portal</h2>
+      <div class="job-grid-container">
+        
+        <!-- Section 1: Latest Jobs -->
+        <section class="job-card-box">
+          <div class="box-header bg-green">
+            <h2>⭐ Latest Jobs</h2>
+            <a href="jobs/index.html">View All</a>
+          </div>
+          <ul class="job-list">
+            <li><a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">Indian Army SSC (Tech)-68 Men Recruitment <span class="badge new">New</span></a></li>
+            <li><a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">MPESB Patwari Recruitment 2026 (200 Posts) <span class="badge new">New</span></a></li>
+          </ul>
+        </section>
 
-      <!-- Admit Card Card -->
-      <section class="job-card-box">
-        <div class="box-header bg-blue">
-          <h2><i class="fas fa-ticket-alt"></i> Admit Card</h2>
-          <a href="admit-card/index.html">View All <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <ul class="job-list">
-          <li><a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html"><i class="fas fa-circle" style="font-size: 0.5rem; color: #3b82f6;"></i> Bank of India Credit Officer Admit Card 2026 <span class="badge hot">Hot</span></a></li>
-        </ul>
-      </section>
+        <!-- Section 2: Admit Card -->
+        <section class="job-card-box">
+          <div class="box-header bg-blue">
+            <h2>🎫 Admit Card</h2>
+            <a href="admit-card/index.html">View All</a>
+          </div>
+          <ul class="job-list">
+            <li><a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">Bank of India Credit Officer Admit Card 2026 <span class="badge hot">Hot</span></a></li>
+          </ul>
+        </section>
 
-      <!-- Results & Exam Dates Card -->
-      <section class="job-card-box">
-        <div class="box-header bg-red">
-          <h2><i class="fas fa-file-alt"></i> Results & Exam Dates</h2>
-          <a href="results/index.html">View All <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <ul class="job-list">
-          <li><a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html"><i class="fas fa-circle" style="font-size: 0.5rem; color: #ef4444;"></i> BOI Credit Officer Exam Date 2026 <span class="badge new">New</span></a></li>
-        </ul>
-      </section>
+        <!-- Section 3: Results & Exam Dates -->
+        <section class="job-card-box">
+          <div class="box-header bg-red">
+            <h2>📄 Results & Exam Dates</h2>
+            <a href="results/index.html">View All</a>
+          </div>
+          <ul class="job-list">
+            <li><a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">BOI Credit Officer Exam Date 2026 <span class="badge new">New</span></a></li>
+          </ul>
+        </section>
 
+        <!-- Section 4: Books -->
+        <section class="job-card-box">
+          <div class="box-header bg-purple">
+            <h2>📚 Books</h2>
+            <a href="books/index.html">View All</a>
+          </div>
+          <ul class="job-list">
+            <li><a href="books/ssc-cgl-preparation-books-2026-best-recommended.html">SSC CGL Preparation Books 2026 <span class="badge new">New</span></a></li>
+            <li><a href="books/banking-exam-books-2026-ibps-sbi-rbi-recommended.html">Banking Exam Books 2026 (IBPS/SBI/RBI) <span class="badge hot">Hot</span></a></li>
+            <li><a href="books/railway-exam-books-2026-rrb-ntpc-group-d.html">Railway Exam Books 2026 (RRB NTPC/Group D)</a></li>
+          </ul>
+        </section>
+
+      </div>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-content">
-      <p>&copy; 2026 BG Jobs. All Rights Reserved. | Professional Sarkari Job Portal</p>
+      <p class="copyright">&copy; 2026 BG Jobs. All Rights Reserved. | Professional Govt Job Portal | Jobs | Admit Card | Results | Books</p>
     </div>
   </footer>
 
-  <!-- Simple search interaction (demo) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "BG Jobs",
+      "url": "https://bgsarkariresult.github.io/bgjob/",
+      "description": "Professional Government Job Portal - Latest Jobs, Admit Cards, Results, Syllabus and Books.",
+      "inLanguage": "en"
+    }
+  </script>
+
   <script>
     (function() {
-      const searchBtn = document.getElementById('searchBtn');
-      const searchInput = document.getElementById('searchInput');
-      
-      function performSearch() {
-        const query = searchInput.value.trim();
-        if (query) {
-          alert('🔍 Search functionality for: "' + query + '" will be implemented. (Demo)');
-          // Real implementation: window.location.href = '/search?q=' + encodeURIComponent(query);
+      const modeToggle = document.getElementById('modeToggle');
+      const body = document.body;
+
+      // Function to update button text and icon
+      function updateToggleButton() {
+        if (body.classList.contains('dark-mode')) {
+          modeToggle.innerHTML = '<span class="icon">☀️</span> Light Mode';
         } else {
-          alert('Please enter a keyword to search.');
+          modeToggle.innerHTML = '<span class="icon">🌙</span> Dark Mode';
         }
       }
-      
-      searchBtn.addEventListener('click', performSearch);
-      searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          performSearch();
+
+      // Check localStorage for saved preference
+      const savedMode = localStorage.getItem('bgJobsDarkMode');
+      if (savedMode === 'enabled') {
+        body.classList.add('dark-mode');
+      } else if (savedMode === 'disabled') {
+        body.classList.remove('dark-mode');
+      } else {
+        // Default: Light mode (no dark-mode class)
+        body.classList.remove('dark-mode');
+      }
+      updateToggleButton();
+
+      // Toggle on button click
+      modeToggle.addEventListener('click', function() {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+          localStorage.setItem('bgJobsDarkMode', 'enabled');
+        } else {
+          localStorage.setItem('bgJobsDarkMode', 'disabled');
         }
+        updateToggleButton();
       });
     })();
   </script>
-
 </body>
 </html>
