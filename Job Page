@@ -1,0 +1,29 @@
+<!-- Job Posting Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "JobPosting",
+  "title": "SSC CGL Recruitment 2026",
+  "description": "Apply online for SSC CGL 2026 vacancy...",
+  "identifier": {
+    "@type": "PropertyValue",
+    "name": "SSC",
+    "value": "CGL-2026"
+  },
+  "datePosted": "2026-08-01",
+  "validThrough": "2026-09-15",
+  "employmentType": "FULL_TIME",
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Staff Selection Commission",
+    "sameAs": "https://ssc.gov.in"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "IN"
+    }
+  }
+}
+</script>
