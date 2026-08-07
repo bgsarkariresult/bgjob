@@ -2,12 +2,12 @@ import json
 import os
 import re
 
-# Directory setup
+# Directries setup
 directories = ["jobs", "results", "admit-card", "answer-key", "syllabus", "current-affairs"]
 for d in directories:
     os.makedirs(d, exist_ok=True)
 
-# Load jobs data
+# 1. Load jobs data
 jobs_data = []
 json_path = "data/jobs.json"
 
@@ -40,6 +40,8 @@ HTML_LAYOUT = """<!DOCTYPE html>
             <a href="../jobs/index.html">Latest Jobs</a>
             <a href="../results/index.html">Results</a>
             <a href="../admit-card/index.html">Admit Card</a>
+            <a href="../answer-key/index.html">Answer Key</a>
+            <a href="../syllabus/index.html">Syllabus</a>
         </div>
     </nav>
 </header>
@@ -84,7 +86,8 @@ categorized_jobs = {d: "" for d in directories}
 
 for job in jobs_data:
     title = job.get("title", "Government Job Alert")
-    slug = job.get("slug") or re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+    title_lower = title.lower()
+    slug = job.get("slug") or re.sub(r'[^a-z0-9]+', '-', title_lower).strip('-')
     categories = [c.lower() for c in job.get("categories", [])]
     
     # 1. Single Detail Page Generation
@@ -132,20 +135,26 @@ for job in jobs_data:
     </a>
     """
 
-    # Always add to 'jobs' category
-    categorized_jobs["jobs"] += card_html
+    # Advanced Smart Categorization (Title + Categories Matching)
+    is_admit = any(k in title_lower for k in ["admit card", "call letter", "hall ticket"]) or any("admit" in c for c in categories)
+    is_result = any(k in title_lower for k in ["result", "merit", "marks", "exam date"]) or any("result" in c for c in categories)
+    is_key = any(k in title_lower for k in ["answer key", "key"]) or any("key" in c for c in categories)
+    is_syllabus = any(k in title_lower for k in ["syllabus", "pattern"]) or any("syllabus" in c for c in categories)
+    is_ca = any(k in title_lower for k in ["current affairs", "gk"]) or any("affairs" in c for c in categories)
 
-    # Filter into Results, Admit Card, etc. based on labels/categories
-    if any(k in c for c in categories for k in ["admit", "call letter", "hall ticket"]):
+    if is_admit:
         categorized_jobs["admit-card"] += card_html
-    if any(k in c for c in categories for k in ["result", "merit", "marks", "exam date"]):
+    elif is_result:
         categorized_jobs["results"] += card_html
-    if any(k in c for c in categories for k in ["answer key", "key"]):
+    elif is_key:
         categorized_jobs["answer-key"] += card_html
-    if any(k in c for c in categories for k in ["syllabus", "pattern"]):
+    elif is_syllabus:
         categorized_jobs["syllabus"] += card_html
-    if any(k in c for c in categories for k in ["current affairs"]):
+    elif is_ca:
         categorized_jobs["current-affairs"] += card_html
+    else:
+        # Defaults to Latest Jobs recruitment
+        categorized_jobs["jobs"] += card_html
 
 # 3. Generate Category-Specific Listing Pages
 for d in directories:
@@ -156,7 +165,7 @@ for d in directories:
     <div style="background:#fff; padding:20px; border-radius:6px; border:1px solid #dee2e6;">
         <h1 style="color:#0073e6; border-bottom: 2px solid #0073e6; padding-bottom: 8px;">{display_title} Updates</h1>
         <div class="job-list" style="margin-top:15px;">
-            {cards if cards else f"<p style='padding:15px; color:#666;'>No active updates available in {display_title} right now.</p>"}
+            {cards if cards else f"<p style='padding:15px; color:#666;'>Abhi {display_title} me koi naya update nahi hai.</p>"}
         </div>
     </div>
     """
@@ -167,4 +176,4 @@ for d in directories:
     with open(target_index, "w", encoding="utf-8") as f:
         f.write(category_html)
 
-print("🚀 Site Build Successful with Filtered Category Pages!")
+print("🚀 Site Build Successful with Smart Filtering!")
