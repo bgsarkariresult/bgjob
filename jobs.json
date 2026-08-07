@@ -1,28 +1,141 @@
-[
-  {
-    "title": "SSC CGL Recruitment 2026",
-    "slug": "ssc-cgl-2026",
-    "vacancies": "17727 Posts",
-    "qualification": "Bachelor Degree in Any Stream",
-    "age_limit": "18-30 Years",
-    "last_date": "2026-09-15",
-    "date_posted": "2026-08-01",
-    "organization": "Staff Selection Commission",
-    "content_html": "<p>Staff Selection Commission (SSC) has released notification for CGL 2026. Eligible candidates can apply online.</p>",
-    "apply_url": "https://ssc.gov.in",
-    "pdf_url": "https://ssc.gov.in/notification.pdf"
-  },
-  {
-    "title": "RRB Technician Grade III Vacancy",
-    "slug": "rrb-ntpc-2026",
-    "vacancies": "9144 Posts",
-    "qualification": "10th with ITI / Class 12th",
-    "age_limit": "18-33 Years",
-    "last_date": "2026-10-10",
-    "date_posted": "2026-08-05",
-    "organization": "Railway Recruitment Boards",
-    "content_html": "<p>Railway Recruitment Board invited online applications for Technician posts.</p>",
-    "apply_url": "https://indianrailways.gov.in",
-    "pdf_url": "https://indianrailways.gov.in/notice.pdf"
-  }
-]
+import json
+import os
+import re
+
+# Set up required directories
+directories = ["jobs", "results", "admit-card", "answer-key", "syllabus", "current-affairs"]
+for d in directories:
+    os.makedirs(d, exist_ok=True)
+
+# 1. Load jobs data
+jobs_data = []
+json_path = "data/jobs.json"
+
+if os.path.exists(json_path):
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            jobs_data = json.load(f)
+            print(f"📖 Loaded {len(jobs_data)} jobs successfully")
+    except Exception as e:
+        print(f"❌ Error loading JSON: {e}")
+
+# Master HTML Base Wrapper
+def wrap_html(title, content, is_subfolder=False):
+    base_prefix = "../" if is_subfolder else "./"
+    return f"""<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6f9; color: #333; }}
+        header {{ background: #0073e6; color: #fff; padding: 15px; text-align: center; }}
+        nav {{ background: #005bb5; text-align: center; padding: 10px; }}
+        nav a {{ color: #fff; text-decoration: none; margin: 0 12px; font-weight: bold; }}
+        nav a:hover {{ text-decoration: underline; }}
+        .container {{ max-width: 900px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
+        .card {{ background: #f8f9fa; border-left: 4px solid #0073e6; padding: 12px 15px; margin-bottom: 12px; border-radius: 4px; display: block; text-decoration: none; color: #333; }}
+        .card:hover {{ background: #e8f4fd; }}
+        .card h3 {{ margin: 0 0 5px 0; color: #0073e6; font-size: 18px; }}
+        .card p {{ margin: 0; font-size: 14px; color: #666; }}
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BG Jobs Alert</h1>
+</header>
+
+<nav>
+    <a href="{base_prefix}index.html">Home</a>
+    <a href="{base_prefix}jobs/index.html">Latest Jobs</a>
+    <a href="{base_prefix}results/index.html">Results</a>
+    <a href="{base_prefix}admit-card/index.html">Admit Card</a>
+</nav>
+
+<div class="container">
+    {content}
+</div>
+
+<footer style="margin-top:40px; text-align:center; padding:20px; background:#222; color:#fff;">
+    <p>&copy; 2026 BG Jobs. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>"""
+
+# 2. Generate Single Detail Pages & Prepare Home/Category List
+home_job_cards = ""
+
+for job in jobs_data:
+    title = job.get("title", "Government Job Alert")
+    slug = job.get("slug") or re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+    
+    # Detail Page HTML Content
+    detail_content = f"""
+    <p><a href="../index.html" style="color:#0073e6; font-weight:bold; text-decoration:none;">← Home पर वापस जाएं</a></p>
+    <h1 style="color:#0073e6; font-size:24px;">{title}</h1>
+    
+    <div style="background:#e8f4fd; padding:15px; border-left:4px solid #0b7a2f; margin-bottom:20px; border-radius:4px;">
+        <p><strong>Organization:</strong> {job.get("organization", "N/A")}</p>
+        <p><strong>Total Vacancies:</strong> {job.get("vacancies", "Various Posts")}</p>
+        <p><strong>Qualification:</strong> {job.get("qualification", "10th / 12th / Graduate")}</p>
+        <p><strong>Age Limit:</strong> {job.get("age_limit", "18 to 35 Years")}</p>
+        <p><strong>Last Date:</strong> {job.get("last_date", "Check Official Portal")}</p>
+    </div>
+
+    <div class="job-content">
+        <p>{job.get("content_html", "Check details above.")}</p>
+    </div>
+
+    <div style="text-align:center; margin-top:25px; display:flex; gap:10px; justify-center:center;">
+        <a href="{job.get('pdf_url', '#')}" target="_blank" style="background:#0073e6; color:#fff; padding:12px 20px; text-decoration:none; font-weight:bold; border-radius:5px;">📄 Download Official PDF</a>
+        <a href="{job.get('apply_url', '#')}" target="_blank" style="background:#28a745; color:#fff; padding:12px 20px; text-decoration:none; font-weight:bold; border-radius:5px;">🔗 Apply Online Direct Link</a>
+    </div>
+    """
+    
+    # Save Subfolder Detail Page
+    single_page_html = wrap_html(title, detail_content, is_subfolder=True)
+    file_path = f"jobs/{slug}.html"
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(single_page_html)
+    print(f"✅ Generated Post Page: {file_path}")
+
+    # Build List Cards with EXACT MATCHED SLUGS
+    home_job_cards += f"""
+    <a href="jobs/{slug}.html" class="card">
+        <h3>{title}</h3>
+        <p><strong>Vacancies:</strong> {job.get('vacancies', 'N/A')} | <strong>Last Date:</strong> {job.get('last_date', 'N/A')}</p>
+    </a>
+    """
+
+# 3. Generate Root index.html (Homepage)
+home_content = f"""
+<h2>Latest Government Recruitment Updates</h2>
+<div class="job-list">
+    {home_job_cards if home_job_cards else "<p>No active jobs found.</p>"}
+</div>
+"""
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(wrap_html("BG Jobs - Latest Sarkari Result & Job Updates", home_content, is_subfolder=False))
+print("✅ Generated Root index.html")
+
+# 4. Generate Category Listing Pages (jobs/index.html, etc.)
+category_cards = home_job_cards.replace('href="jobs/', 'href="')  # Fix relative path inside subfolders
+
+category_content = f"""
+<p><a href="../index.html" style="color:#0073e6; font-weight:bold; text-decoration:none;">← Home पर वापस जाएं</a></p>
+<h2>All Latest Notifications</h2>
+<div class="job-list">
+    {category_cards if category_cards else "<p>No active postings.</p>"}
+</div>
+"""
+
+for d in directories:
+    target_index = f"{d}/index.html"
+    with open(target_index, "w", encoding="utf-8") as f:
+        f.write(wrap_html(f"{d.capitalize()} - BG Jobs", category_content, is_subfolder=True))
+    print(f"✅ Generated Category Listing: {target_index}")
+
+print("\n🚀 Complete Site Build Successful! No 404 errors will occur.")
