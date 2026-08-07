@@ -1,27 +1,28 @@
-name: Build and Deploy Job Site
-
-on:
-  push:
-    paths:
-      - 'data/jobs.json'
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: Generate HTML Pages & Sitemap
-        run: python build.py
-
-      - name: Deploy to GitHub Pages
-        uses: Peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+[
+  {
+    "title": "SSC CGL Recruitment 2026",
+    "slug": "ssc-cgl-2026",
+    "vacancies": "17727 Posts",
+    "qualification": "Bachelor Degree in Any Stream",
+    "age_limit": "18-30 Years",
+    "last_date": "2026-09-15",
+    "date_posted": "2026-08-01",
+    "organization": "Staff Selection Commission",
+    "content_html": "<p>Staff Selection Commission (SSC) has released notification for CGL 2026. Eligible candidates can apply online.</p>",
+    "apply_url": "https://ssc.gov.in",
+    "pdf_url": "https://ssc.gov.in/notification.pdf"
+  },
+  {
+    "title": "RRB Technician Grade III Vacancy",
+    "slug": "rrb-ntpc-2026",
+    "vacancies": "9144 Posts",
+    "qualification": "10th with ITI / Class 12th",
+    "age_limit": "18-33 Years",
+    "last_date": "2026-10-10",
+    "date_posted": "2026-08-05",
+    "organization": "Railway Recruitment Boards",
+    "content_html": "<p>Railway Recruitment Board invited online applications for Technician posts.</p>",
+    "apply_url": "https://indianrailways.gov.in",
+    "pdf_url": "https://indianrailways.gov.in/notice.pdf"
+  }
+]
