@@ -1,762 +1,1069 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
-  <title>BG Jobs | Latest Sarkari Jobs, Admit Card & Results 2026</title>
-  <meta name="description" content="BG Jobs: Get latest updates on Sarkari Result, Railway, SSC, Bank, MPESB, Police Govt Jobs, Admit Cards, Answer Keys & Syllabus.">
-  <meta name="keywords" content="Sarkari Result, BG Jobs, MPESB Patwari, Bank Jobs, SSC CGL 2026, Railway Recruitment, Admit Card, Results 2026">
-  <meta name="author" content="BG Jobs">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#0b5e8a">
-  <link rel="canonical" href="https://bgsarkariresult.github.io/bgjob/">
+#!/usr/bin/env python3
+"""
+BG Jobs - Professional Govt Job Portal Builder
+GitHub Pages Build Script with Dark/Light Mode Support
+"""
 
-  <meta property="og:title" content="BG Jobs - Latest Sarkari Jobs, Results & Admit Card 2026">
-  <meta property="og:description" content="Find all latest government job notifications, admit cards, and results on BG Jobs.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://bgsarkariresult.github.io/bgjob/">
-  <meta property="og:site_name" content="BG Jobs">
+import os
+import json
+import shutil
+from datetime import datetime
+from pathlib import Path
 
-  <!-- Professional Font & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  
-  <style>
-    /* Reset & Professional Base */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #f4f7fc 0%, #e8edf5 100%);
-      color: #1e293b;
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.3s ease;
-    }
-    ul {
-      list-style: none;
-    }
+# ============================================================
+# CONFIGURATION
+# ============================================================
 
-    /* Header Professional Style */
-    .site-header {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 2px solid #e2e8f0;
-      backdrop-filter: blur(10px);
-    }
-    .header-flex {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding: 16px 24px;
-      gap: 24px;
-    }
-    .logo a {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      color: #0b5e8a;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: transform 0.3s ease;
-    }
-    .logo a:hover {
-      transform: scale(1.05);
-    }
-    .logo a span {
-      background: linear-gradient(135deg, #0b5e8a, #0f766e);
-      color: white;
-      padding: 6px 16px;
-      border-radius: 10px;
-      font-size: 1.8rem;
-      font-weight: 700;
-      box-shadow: 0 4px 10px rgba(11,94,138,0.3);
-    }
-    .search-box {
-      display: flex;
-      align-items: center;
-      background: #ffffff;
-      border-radius: 50px;
-      padding: 6px 6px 6px 24px;
-      border: 2px solid #e2e8f0;
-      transition: all 0.3s ease;
-      width: 400px;
-      max-width: 100%;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .search-box:focus-within {
-      border-color: #0b5e8a;
-      box-shadow: 0 0 0 4px rgba(11,94,138,0.1);
-      transform: translateY(-1px);
-    }
-    .search-box input {
-      border: none;
-      background: transparent;
-      padding: 12px 0;
-      font-size: 0.95rem;
-      width: 100%;
-      outline: none;
-      font-weight: 500;
-    }
-    .search-box button {
-      background: linear-gradient(135deg, #0b5e8a, #0f766e);
-      border: none;
-      color: white;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(11,94,138,0.3);
-    }
-    .search-box button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(11,94,138,0.4);
-    }
+SITE_NAME = "BG Jobs"
+SITE_URL = "https://bgsarkariresult.github.io/bgjob/"
+SITE_DESCRIPTION = "Professional Government Job Portal - Latest Jobs, Admit Cards, Results, Syllabus & Books"
+SITE_KEYWORDS = "Sarkari Result, BG Jobs, MPESB Patwari, Bank Jobs, SSC CGL 2026, Railway Recruitment, Admit Card, Results 2026, Govt Jobs, Books"
+SITE_AUTHOR = "BG Jobs"
+THEME_COLOR_LIGHT = "#ffffff"
+THEME_COLOR_DARK = "#0a0a0a"
 
-    /* Navigation */
-    .main-nav {
-      background: linear-gradient(135deg, #0b5e8a, #0f766e);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-wrap: wrap;
-      padding: 4px 24px;
-    }
-    .nav-links a {
-      color: rgba(255,255,255,0.9);
-      padding: 16px 24px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      letter-spacing: 0.3px;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 2px;
-      background: white;
-      transition: width 0.3s ease;
-    }
-    .nav-links a:hover::after {
-      width: 60%;
-    }
-    .nav-links a:hover {
-      background: rgba(255,255,255,0.1);
-      color: white;
-      transform: translateY(-2px);
-    }
-    .nav-links a.active {
-      background: white;
-      color: #0b5e8a;
-      font-weight: 700;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .nav-links a.active::after {
-      display: none;
-    }
+# Directory structure
+BUILD_DIR = Path("_build")
+ASSETS_DIR = Path("assets")
+CSS_DIR = ASSETS_DIR / "css"
+JS_DIR = ASSETS_DIR / "js"
+IMAGES_DIR = ASSETS_DIR / "images"
 
-    /* Ticker */
-    .ticker-wrapper {
-      background: linear-gradient(135deg, #fff7ed, #fed7aa);
-      border-bottom: 2px solid #fb923c;
-      position: relative;
-      overflow: hidden;
-    }
-    .ticker-wrapper::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      animation: shine 3s infinite;
-    }
-    @keyframes shine {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-    .ticker-flex {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 14px 24px;
-      font-weight: 500;
-      position: relative;
-      z-index: 1;
-    }
-    .ticker-label {
-      background: linear-gradient(135deg, #ea580c, #dc2626);
-      color: white;
-      padding: 6px 20px;
-      border-radius: 25px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-      box-shadow: 0 4px 10px rgba(234,88,12,0.3);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    .ticker-content {
-      display: flex;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    .ticker-content a {
-      color: #0b5e8a;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .ticker-content a::before {
-      content: '•';
-      color: #ea580c;
-      font-size: 1.5rem;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .ticker-content a:hover {
-      color: #ea580c;
-      transform: translateX(5px);
-      text-decoration: underline;
-    }
+# ============================================================
+# DIRECTORY SETUP
+# ============================================================
 
-    /* Main Grid */
-    .main-content {
-      flex: 1;
-      padding: 40px 24px 60px;
-    }
-    .section-title {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .section-title h2 {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #0b5e8a;
-      margin-bottom: 8px;
-    }
-    .section-title p {
-      color: #64748b;
-      font-size: 1.1rem;
-    }
-    .job-grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 32px;
-      margin-top: 20px;
-    }
-    .job-card-box {
-      background: linear-gradient(135deg, #ffffff, #f8fafc);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      padding: 28px;
-      transition: all 0.3s ease;
-      border: 1px solid #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-    }
-    .job-card-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #0b5e8a, #0f766e, #10b981);
-    }
-    .job-card-box:hover {
-      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-      transform: translateY(-5px);
-      border-color: #0b5e8a;
-    }
-    .box-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #f1f5f9;
-    }
-    .box-header h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .box-header a {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #0b5e8a;
-      background: #e6f0f7;
-      padding: 8px 18px;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .box-header a:hover {
-      background: #0b5e8a;
-      color: white;
-      transform: translateX(5px);
-    }
+def setup_directories():
+    """Create necessary directory structure"""
+    directories = [
+        BUILD_DIR,
+        BUILD_DIR / "jobs",
+        BUILD_DIR / "results",
+        BUILD_DIR / "admit-card",
+        BUILD_DIR / "answer-key",
+        BUILD_DIR / "syllabus",
+        BUILD_DIR / "books",
+        BUILD_DIR / "assets" / "css",
+        BUILD_DIR / "assets" / "js",
+        BUILD_DIR / "assets" / "images",
+    ]
+    for directory in directories:
+        directory.mkdir(parents=True, exist_ok=True)
+    print("✅ Directories created successfully")
 
-    .bg-green h2 i { color: #10b981; }
-    .bg-blue h2 i { color: #3b82f6; }
-    .bg-red h2 i { color: #ef4444; }
+# ============================================================
+# CSS GENERATION
+# ============================================================
 
-    .job-list li {
-      padding: 16px 0;
-      border-bottom: 1px solid #f1f5f9;
-      transition: all 0.3s ease;
-    }
-    .job-list li:hover {
-      background: #f8fafc;
-      transform: translateX(5px);
-    }
-    .job-list li:last-child {
-      border-bottom: none;
-    }
-    .job-list li a {
-      font-weight: 500;
-      color: #1e293b;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      width: 100%;
-      transition: all 0.3s ease;
-    }
-    .job-list li a:hover {
-      color: #0b5e8a;
-    }
-    .badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      animation: fadeIn 0.5s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .badge.new {
-      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-      color: #15803d;
-      border: 1px solid #86efac;
-    }
-    .badge.hot {
-      background: linear-gradient(135deg, #fee2e2, #fecaca);
-      color: #b91c1c;
-      border: 1px solid #f87171;
-      animation: pulse 1.5s infinite;
-    }
+def generate_css():
+    """Generate the complete CSS file with dark/light mode support"""
+    css_content = """/* BG Jobs - Professional Stylesheet with Dark/Light Mode */
+/* Generated by build.py */
 
-    /* Quick Links Section */
-    .quick-links {
-      margin-top: 50px;
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-    .quick-links h3 {
-      font-size: 1.3rem;
-      color: #0b5e8a;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .quick-links-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
-    .quick-link-item {
-      background: #f8fafc;
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      transition: all 0.3s ease;
-      border: 1px solid #e2e8f0;
-      font-weight: 600;
-      color: #1e293b;
-    }
-    .quick-link-item:hover {
-      background: #0b5e8a;
-      color: white;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(11,94,138,0.3);
-    }
+/* ========== CSS VARIABLES - LIGHT MODE (Default) ========== */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-card: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
+    --border-color: #e0e0e0;
+    --ticker-bg: #ffffff;
+    --ticker-text: #1a1a1a;
+    --card-border: #e8e8e8;
+    --card-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    --hover-shadow: 0 18px 32px rgba(255,107,0,0.12);
+    --job-link-color: #1a1a1a;
+    --job-link-hover: #ff6b00;
+    --badge-new-bg: #e8f5e9;
+    --badge-new-text: #1b5e20;
+    --badge-new-border: #4caf50;
+    --badge-hot-bg: #ffebee;
+    --badge-hot-text: #b71c1c;
+    --badge-hot-border: #ef5350;
+    --orange-primary: #ff6b00;
+    --orange-hover: #ff8533;
+    --header-bg: #0d0d0d;
+    --header-text: #ffffff;
+    --nav-bg: #111111;
+    --nav-link: #cccccc;
+    --nav-active-bg: #ff6b00;
+    --nav-active-text: #0a0a0a;
+}
 
-    /* Footer */
-    .site-footer {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #cbd5e1;
-      padding: 30px 0;
-      text-align: center;
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-top: auto;
-      border-top: 4px solid #0b5e8a;
-    }
-    .footer-content p {
-      opacity: 0.9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
+/* ========== DARK MODE ========== */
+body.dark-mode {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #0f0f0f;
+    --bg-card: #141414;
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaaaaa;
+    --border-color: #2a2a2a;
+    --ticker-bg: #1a1a1a;
+    --ticker-text: #dddddd;
+    --card-border: #2a2a2a;
+    --card-shadow: 0 8px 24px rgba(0,0,0,0.7);
+    --hover-shadow: 0 18px 32px rgba(255,107,0,0.2);
+    --job-link-color: #f0f0f0;
+    --job-link-hover: #ff6b00;
+    --badge-new-bg: #1b3a1b;
+    --badge-new-text: #a5d6a7;
+    --badge-new-border: #4caf50;
+    --badge-hot-bg: #3a1b1b;
+    --badge-hot-text: #ef9a9a;
+    --badge-hot-border: #ef5350;
+}
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .header-flex {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .search-box {
-        width: 100%;
-      }
-      .nav-links {
-        justify-content: center;
-        gap: 2px;
-      }
-      .nav-links a {
-        padding: 12px 16px;
-        font-size: 0.9rem;
-      }
-      .ticker-flex {
+/* ========== RESET & BASE ========== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background 0.35s ease, color 0.35s ease;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ========== HEADER (Always Dark) ========== */
+.site-header {
+    background: var(--header-bg);
+    border-bottom: 2px solid var(--orange-primary);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    gap: 16px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: flex;
+    align-items: baseline;
+}
+
+.logo a {
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+    color: var(--header-text);
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.logo span {
+    background: var(--orange-primary);
+    color: #0a0a0a;
+    padding: 4px 16px;
+    border-radius: 40px;
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin-left: 4px;
+}
+
+/* ========== MODE TOGGLE BUTTON ========== */
+.mode-toggle {
+    background: var(--orange-primary);
+    border: 2px solid var(--orange-primary);
+    color: #0a0a0a;
+    font-size: 1rem;
+    padding: 10px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.3px;
+}
+
+.mode-toggle:hover {
+    background: var(--orange-hover);
+    border-color: var(--orange-hover);
+    box-shadow: 0 4px 16px rgba(255,107,0,0.4);
+}
+
+.mode-toggle .icon {
+    font-size: 1.2rem;
+}
+
+/* ========== SEARCH BOX ========== */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    border-radius: 50px;
+    padding: 4px 6px 4px 22px;
+    box-shadow: 0 4px 16px rgba(255, 107, 0, 0.15);
+    min-width: 300px;
+    border: 1px solid #333;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    width: 100%;
+    background: transparent;
+    color: #ffffff;
+}
+
+.search-box input::placeholder {
+    color: #999;
+}
+
+.search-box button {
+    background: var(--orange-primary);
+    border: none;
+    color: #0a0a0a;
+    font-size: 1.2rem;
+    padding: 12px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.search-box button:hover {
+    background: var(--orange-hover);
+}
+
+/* ========== NAVIGATION ========== */
+.main-nav {
+    background: var(--nav-bg);
+    border-top: 1px solid #222;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px 24px;
+}
+
+.nav-links a {
+    color: var(--nav-link);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 22px;
+    border-radius: 30px;
+    transition: all 0.25s;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+    background: var(--nav-active-bg);
+    color: var(--nav-active-text);
+    box-shadow: 0 4px 16px rgba(255, 107, 0, 0.5);
+    font-weight: 700;
+}
+
+/* ========== TICKER ========== */
+.ticker-wrapper {
+    background: var(--ticker-bg);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    overflow: hidden;
+    transition: background 0.35s ease;
+}
+
+.ticker-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 24px;
+    white-space: nowrap;
+}
+
+.ticker-label {
+    background: #ff3b30;
+    color: white;
+    font-weight: 700;
+    padding: 8px 22px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(255,59,48,0.3);
+}
+
+.ticker-scroll-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.ticker-content {
+    display: flex;
+    gap: 40px;
+    animation: scrollTicker 25s linear infinite;
+    width: max-content;
+}
+
+.ticker-content a {
+    color: var(--ticker-text);
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.2s;
+    font-size: 0.98rem;
+}
+
+.ticker-content a:hover {
+    color: var(--orange-primary);
+    text-decoration: underline;
+}
+
+.ticker-separator {
+    color: #cccccc;
+    font-weight: 400;
+}
+
+@keyframes scrollTicker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ========== MAIN CONTENT ========== */
+main {
+    flex: 1;
+    padding: 36px 0 48px;
+    background: var(--bg-secondary);
+    transition: background 0.35s ease;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.section-title span {
+    color: var(--orange-primary);
+}
+
+/* ========== JOB CARDS GRID ========== */
+.job-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+.job-card-box {
+    background: var(--bg-card);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.35s ease, border-color 0.25s;
+    border: 1px solid var(--card-border);
+}
+
+.job-card-box:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--hover-shadow);
+    border-color: var(--orange-primary);
+}
+
+.box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    color: white;
+    font-weight: 700;
+}
+
+.box-header h2 {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.box-header a {
+    color: white;
+    background: rgba(255,255,255,0.18);
+    padding: 6px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    transition: 0.2s;
+}
+
+.box-header a:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+.bg-green {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32);
+    border-bottom: 2px solid var(--orange-primary);
+}
+
+.bg-blue {
+    background: linear-gradient(135deg, #0d47a1, #1565c0);
+    border-bottom: 2px solid var(--orange-primary);
+}
+
+.bg-red {
+    background: linear-gradient(135deg, #b71c1c, #c62828);
+    border-bottom: 2px solid var(--orange-primary);
+}
+
+.bg-purple {
+    background: linear-gradient(135deg, #4a148c, #6a1b9a);
+    border-bottom: 2px solid var(--orange-primary);
+}
+
+.job-list {
+    list-style: none;
+    padding: 18px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.job-list li {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 14px;
+    transition: border-color 0.35s ease;
+}
+
+.job-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.job-list a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--job-link-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.96rem;
+    transition: color 0.2s;
+}
+
+.job-list a:hover {
+    color: var(--job-link-hover);
+}
+
+/* ========== BADGES ========== */
+.badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.badge.new {
+    background: var(--badge-new-bg);
+    color: var(--badge-new-text);
+    border: 1px solid var(--badge-new-border);
+}
+
+.badge.hot {
+    background: var(--badge-hot-bg);
+    color: var(--badge-hot-text);
+    border: 1px solid var(--badge-hot-border);
+}
+
+/* ========== FOOTER ========== */
+.site-footer {
+    background: #0d0d0d;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 28px 24px;
+    border-top: 3px solid var(--orange-primary);
+}
+
+.footer-content p {
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .header-top {
         flex-direction: column;
         align-items: flex-start;
-      }
-      .ticker-content {
-        gap: 16px;
-      }
-      .job-grid-container {
+    }
+    .header-left {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .search-box {
+        width: 100%;
+        min-width: auto;
+    }
+    .nav-links {
+        justify-content: center;
+    }
+    .job-grid-container {
         grid-template-columns: 1fr;
-      }
+        padding: 0 8px;
     }
+}
 
-    /* Scroll to Top Button */
-    .scroll-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: linear-gradient(135deg, #0b5e8a, #0f766e);
-      color: white;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      border: none;
-      font-size: 1.2rem;
+@media (max-width: 480px) {
+    .logo a {
+        font-size: 1.8rem;
     }
-    .scroll-top.show {
-      opacity: 1;
-      visibility: visible;
+    .logo span {
+        font-size: 1.4rem;
+        padding: 3px 12px;
     }
-    .scroll-top:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(11,94,138,0.4);
+    .mode-toggle {
+        font-size: 0.85rem;
+        padding: 8px 14px;
     }
-  </style>
-</head>
-<body>
+}
 
-  <header class="site-header">
-    <div class="container header-flex">
-      <div class="logo">
-        <a href="index.html">
-          <i class="fas fa-briefcase" style="font-size: 2rem;"></i> 
-          BG <span>Jobs</span>
-        </a>
-      </div>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 Search Jobs, Results, Admit Card..." aria-label="Search">
-        <button type="button" id="searchBtn" aria-label="Search">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-    </div>
-    <nav class="main-nav">
-      <div class="container nav-links">
-        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-        <a href="jobs/index.html"><i class="fas fa-briefcase"></i> Latest Jobs</a>
-        <a href="results/index.html"><i class="fas fa-chart-bar"></i> Result</a>
-        <a href="admit-card/index.html"><i class="fas fa-id-card"></i> Admit Card</a>
-        <a href="answer-key/index.html"><i class="fas fa-key"></i> Answer Key</a>
-        <a href="syllabus/index.html"><i class="fas fa-book-open"></i> Syllabus</a>
-      </div>
-    </nav>
-  </header>
-
-  <div class="ticker-wrapper">
-    <div class="container ticker-flex">
-      <span class="ticker-label"><i class="fas fa-bolt"></i> Latest News</span>
-      <div class="ticker-content">
-        <a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">
-          Indian Army SSC (Tech)-68 Notification Out
-        </a>
-        <a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">
-          MPESB Patwari Recruitment 2026 Apply Online
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <main class="container main-content">
-    <div class="section-title">
-      <h2>📋 Latest Government Job Updates</h2>
-      <p>Find all Sarkari Naukri, Admit Cards, Results & Exam Updates in one place</p>
-    </div>
+/* ========== SAFARI / APPLE FIX ========== */
+@supports (-webkit-touch-callout: none) {
+    body {
+        -webkit-text-size-adjust: 100%;
+    }
+}
+"""
     
-    <div class="job-grid-container">
-      
-      <!-- Latest Jobs Card -->
-      <section class="job-card-box">
-        <div class="box-header bg-green">
-          <h2><i class="fas fa-star"></i> Latest Jobs</h2>
-          <a href="jobs/index.html">View All <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <ul class="job-list">
-          <li>
-            <a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">
-              <i class="fas fa-circle" style="font-size: 0.5rem; color: #10b981;"></i> 
-              Indian Army SSC (Tech)-68 Men Recruitment 
-              <span class="badge new">New</span>
-            </a>
-          </li>
-          <li>
-            <a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">
-              <i class="fas fa-circle" style="font-size: 0.5rem; color: #10b981;"></i> 
-              MPESB Patwari Recruitment 2026 (200 Posts) 
-              <span class="badge new">New</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-circle" style="font-size: 0.5rem; color: #10b981;"></i> 
-              SSC CGL 2026 Notification (Soon) 
-              <span class="badge new">Upcoming</span>
-            </a>
-          </li>
-        </ul>
-      </section>
+    css_file = BUILD_DIR / "assets" / "css" / "style.css"
+    css_file.write_text(css_content, encoding="utf-8")
+    print("✅ CSS file generated")
 
-      <!-- Admit Card Card -->
-      <section class="job-card-box">
-        <div class="box-header bg-blue">
-          <h2><i class="fas fa-ticket-alt"></i> Admit Card</h2>
-          <a href="admit-card/index.html">View All <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <ul class="job-list">
-          <li>
-            <a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">
-              <i class="fas fa-circle" style="font-size: 0.5rem; color: #3b82f6;"></i> 
-              Bank of India Credit Officer Admit Card 2026 
-              <span class="badge hot">Hot</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-circle" style="font-size: 0.5rem; color: #3b82f6;"></i> 
-              Railway NTPC Admit Card (Phase 2) 
-              <span class="badge new">Soon</span>
-            </a>
-          </li>
-        </ul>
-      </section>
+# ============================================================
+# JAVASCRIPT GENERATION
+# ============================================================
 
-      <!-- Results & Exam Dates Card -->
-      <section class="job-card-box">
-        <div class="box-header bg-red">
-          <h2><i class="fas fa-file-alt"></i> Results & Exam Dates</h2>
-          <a href="results/index.html">View All <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <ul class="job-list">
-          <li>
-            <a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">
-              <i class="fas fa-circle" style="font-size: 0.5rem; color: #ef4444;"></i> 
-              BOI Credit Officer Exam Date 2026 
-              <span class="badge new">New</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-circle" style="font-size: 0.5rem; color: #ef4444;"></i> 
-              MPESB Group 2 Result 2026 
-              <span class="badge hot">Declared</span>
-            </a>
-          </li>
-        </ul>
-      </section>
+def generate_js():
+    """Generate JavaScript file for dark/light mode toggle"""
+    js_content = """/* BG Jobs - Dark/Light Mode Toggle Script */
+(function() {
+    'use strict';
 
-    </div>
+    const modeToggle = document.getElementById('modeToggle');
+    const body = document.body;
+    const STORAGE_KEY = 'bgJobsDarkMode';
 
-    <!-- Quick Links Section -->
-    <div class="quick-links">
-      <h3><i class="fas fa-link"></i> Quick Links</h3>
-      <div class="quick-links-grid">
-        <a href="jobs/index.html" class="quick-link-item">
-          <i class="fas fa-briefcase"></i> Latest Jobs
-        </a>
-        <a href="results/index.html" class="quick-link-item">
-          <i class="fas fa-chart-bar"></i> Results
-        </a>
-        <a href="admit-card/index.html" class="quick-link-item">
-          <i class="fas fa-id-card"></i> Admit Cards
-        </a>
-        <a href="answer-key/index.html" class="quick-link-item">
-          <i class="fas fa-key"></i> Answer Keys
-        </a>
-        <a href="syllabus/index.html" class="quick-link-item">
-          <i class="fas fa-book-open"></i> Syllabus
-        </a>
-      </div>
-    </div>
-  </main>
+    // Function to update button text and icon
+    function updateToggleButton() {
+        if (!modeToggle) return;
+        if (body.classList.contains('dark-mode')) {
+            modeToggle.innerHTML = '<span class="icon">☀️</span> Light Mode';
+        } else {
+            modeToggle.innerHTML = '<span class="icon">🌙</span> Dark Mode';
+        }
+    }
 
-  <!-- Scroll to Top Button -->
-  <button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
-    <i class="fas fa-arrow-up"></i>
-  </button>
+    // Function to apply saved mode
+    function applySavedMode() {
+        const savedMode = localStorage.getItem(STORAGE_KEY);
+        if (savedMode === 'enabled') {
+            body.classList.add('dark-mode');
+        } else if (savedMode === 'disabled') {
+            body.classList.remove('dark-mode');
+        }
+        // Default: light mode (no class)
+        updateToggleButton();
+    }
 
-  <footer class="site-footer">
-    <div class="container footer-content">
-      <p>
-        <i class="fas fa-copyright"></i> 2026 BG Jobs. All Rights Reserved. | 
-        <i class="fas fa-shield-alt"></i> Professional Sarkari Job Portal
-      </p>
-    </div>
-  </footer>
+    // Function to toggle mode
+    function toggleMode() {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem(STORAGE_KEY, 'enabled');
+        } else {
+            localStorage.setItem(STORAGE_KEY, 'disabled');
+        }
+        updateToggleButton();
+    }
 
-  <!-- Enhanced JavaScript -->
-  <script>
-    (function() {
-      const searchBtn = document.getElementById('searchBtn');
-      const searchInput = document.getElementById('searchInput');
-      const scrollTopBtn = document.getElementById('scrollTopBtn');
-      
-      // Search functionality
-      function performSearch() {
+    // Initialize
+    applySavedMode();
+
+    // Add click event listener
+    if (modeToggle) {
+        modeToggle.addEventListener('click', toggleMode);
+    }
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    
+    function performSearch() {
+        if (!searchInput) return;
         const query = searchInput.value.trim();
         if (query) {
-          // You can replace this with actual search implementation
-          alert('🔍 Searching for: "' + query + '"\n\nThis feature will be implemented soon!');
-          // window.location.href = '/search?q=' + encodeURIComponent(query);
-        } else {
-          searchInput.focus();
-          searchInput.placeholder = 'Please enter a keyword...';
-          setTimeout(() => {
-            searchInput.placeholder = '🔍 Search Jobs, Results, Admit Card...';
-          }, 2000);
+            alert('Searching for: ' + query + '\\n(Search functionality can be integrated with backend)');
         }
-      }
-      
-      searchBtn.addEventListener('click', performSearch);
-      searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          performSearch();
-        }
-      });
-      
-      // Scroll to top functionality
-      window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-          scrollTopBtn.classList.add('show');
-        } else {
-          scrollTopBtn.classList.remove('show');
-        }
-      });
-      
-      scrollTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      });
-      
-      // Add active class to current page nav link
-      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-      const navLinks = document.querySelectorAll('.nav-links a');
-      navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-          link.classList.add('active');
-        }
-      });
-      
-      // Console welcome message
-      console.log('🚀 BG Jobs - Professional Sarkari Job Portal');
-      console.log('📋 Latest updates available for 2026');
-    })();
-  </script>
+    }
 
+    if (searchBtn) {
+        searchBtn.addEventListener('click', performSearch);
+    }
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+
+    console.log('✅ BG Jobs - Dark/Light mode initialized');
+})();
+"""
+    
+    js_file = BUILD_DIR / "assets" / "js" / "main.js"
+    js_file.write_text(js_content, encoding="utf-8")
+    print("✅ JavaScript file generated")
+
+# ============================================================
+# HTML PAGE GENERATION
+# ============================================================
+
+def generate_index_html():
+    """Generate the main index.html page"""
+    
+    html_content = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>{SITE_NAME} | Professional Govt Job Portal – Admit Card, Result 2026</title>
+    <meta name="description" content="{SITE_DESCRIPTION}">
+    <meta name="keywords" content="{SITE_KEYWORDS}">
+    <meta name="author" content="{SITE_AUTHOR}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="{THEME_COLOR_LIGHT}">
+    
+    <link rel="canonical" href="{SITE_URL}">
+    
+    <meta property="og:title" content="{SITE_NAME} - Professional Govt Job Portal | Admit Card & Results 2026">
+    <meta property="og:description" content="{SITE_DESCRIPTION}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{SITE_URL}">
+    <meta property="og:site_name" content="{SITE_NAME}">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-top">
+                <div class="header-left">
+                    <h1 class="logo">
+                        <a href="index.html">BG <span>Jobs</span></a>
+                    </h1>
+                    <button class="mode-toggle" id="modeToggle" title="Toggle Dark/Light Mode" aria-label="Dark/Light Mode Switch">
+                        <span class="icon">🌙</span> Dark Mode
+                    </button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search Jobs, Results, Admit Card...">
+                    <button type="button" id="searchBtn" aria-label="Search">🔍</button>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="container nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="jobs/index.html">Latest Jobs</a>
+                <a href="results/index.html">Result</a>
+                <a href="admit-card/index.html">Admit Card</a>
+                <a href="answer-key/index.html">Answer Key</a>
+                <a href="syllabus/index.html">Syllabus</a>
+                <a href="books/index.html">Books</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="ticker-wrapper">
+        <div class="container ticker-flex">
+            <span class="ticker-label">🔥 Latest Jobs</span>
+            <div class="ticker-scroll-container">
+                <div class="ticker-content">
+                    <a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">Indian Army SSC (Tech)-68 Notification Out</a>
+                    <span class="ticker-separator">|</span>
+                    <a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">MPESB Patwari Recruitment 2026 (200 Posts)</a>
+                    <span class="ticker-separator">|</span>
+                    <a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">Bank of India Credit Officer Admit Card 2026</a>
+                    <span class="ticker-separator">|</span>
+                    <a href="books/ssc-cgl-preparation-books-2026-best-recommended.html">SSC CGL Best Books 2026 - Recommended</a>
+                    <span class="ticker-separator">|</span>
+                    <!-- Duplicate for seamless loop -->
+                    <a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">Indian Army SSC (Tech)-68 Notification Out</a>
+                    <span class="ticker-separator">|</span>
+                    <a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">MPESB Patwari Recruitment 2026 (200 Posts)</a>
+                    <span class="ticker-separator">|</span>
+                    <a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">Bank of India Credit Officer Admit Card 2026</a>
+                    <span class="ticker-separator">|</span>
+                    <a href="books/ssc-cgl-preparation-books-2026-best-recommended.html">SSC CGL Best Books 2026 - Recommended</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <h2 class="section-title">Explore <span>BG Jobs</span> Portal</h2>
+            <div class="job-grid-container">
+                
+                <!-- Section 1: Latest Jobs -->
+                <section class="job-card-box">
+                    <div class="box-header bg-green">
+                        <h2>⭐ Latest Jobs</h2>
+                        <a href="jobs/index.html">View All</a>
+                    </div>
+                    <ul class="job-list">
+                        <li><a href="jobs/indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html">Indian Army SSC (Tech)-68 Men Recruitment <span class="badge new">New</span></a></li>
+                        <li><a href="jobs/mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html">MPESB Patwari Recruitment 2026 (200 Posts) <span class="badge new">New</span></a></li>
+                    </ul>
+                </section>
+
+                <!-- Section 2: Admit Card -->
+                <section class="job-card-box">
+                    <div class="box-header bg-blue">
+                        <h2>🎫 Admit Card</h2>
+                        <a href="admit-card/index.html">View All</a>
+                    </div>
+                    <ul class="job-list">
+                        <li><a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">Bank of India Credit Officer Admit Card 2026 <span class="badge hot">Hot</span></a></li>
+                    </ul>
+                </section>
+
+                <!-- Section 3: Results & Exam Dates -->
+                <section class="job-card-box">
+                    <div class="box-header bg-red">
+                        <h2>📄 Results & Exam Dates</h2>
+                        <a href="results/index.html">View All</a>
+                    </div>
+                    <ul class="job-list">
+                        <li><a href="jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html">BOI Credit Officer Exam Date 2026 <span class="badge new">New</span></a></li>
+                    </ul>
+                </section>
+
+                <!-- Section 4: Books -->
+                <section class="job-card-box">
+                    <div class="box-header bg-purple">
+                        <h2>📚 Books</h2>
+                        <a href="books/index.html">View All</a>
+                    </div>
+                    <ul class="job-list">
+                        <li><a href="books/ssc-cgl-preparation-books-2026-best-recommended.html">SSC CGL Preparation Books 2026 <span class="badge new">New</span></a></li>
+                        <li><a href="books/banking-exam-books-2026-ibps-sbi-rbi-recommended.html">Banking Exam Books 2026 (IBPS/SBI/RBI) <span class="badge hot">Hot</span></a></li>
+                        <li><a href="books/railway-exam-books-2026-rrb-ntpc-group-d.html">Railway Exam Books 2026 (RRB NTPC/Group D)</a></li>
+                    </ul>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p class="copyright">&copy; 2026 {SITE_NAME}. All Rights Reserved. | Professional Govt Job Portal | Jobs | Admit Card | Results | Books</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script type="application/ld+json">
+    {{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{SITE_NAME}",
+        "url": "{SITE_URL}",
+        "description": "{SITE_DESCRIPTION}",
+        "inLanguage": "en"
+    }}
+    </script>
 </body>
-</html>
+</html>'''
+    
+    index_file = BUILD_DIR / "index.html"
+    index_file.write_text(html_content, encoding="utf-8")
+    print("✅ index.html generated")
+
+# ============================================================
+# SAMPLE PAGES GENERATION
+# ============================================================
+
+def generate_sample_pages():
+    """Generate sample pages for each section"""
+    
+    sample_pages = {
+        "jobs": {
+            "title": "Latest Jobs - BG Jobs",
+            "heading": "⭐ Latest Government Jobs 2026",
+            "description": "Find all latest government job notifications",
+            "items": [
+                {"text": "Indian Army SSC (Tech)-68 Men Recruitment 2026", "badge": "new", "url": "indian-army-ssc-tech-68-men-recruitment-2026-notification-eligibility-dates-salary.html"},
+                {"text": "MPESB Patwari Recruitment 2026 (200 Posts)", "badge": "new", "url": "mpesb-patwari-recruitment-2026-notification-out-apply-online-for-200-posts.html"},
+            ]
+        },
+        "results": {
+            "title": "Results - BG Jobs",
+            "heading": "📄 Latest Exam Results 2026",
+            "description": "Check all government exam results",
+            "items": [
+                {"text": "BOI Credit Officer Exam Date 2026", "badge": "new", "url": "../jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html"},
+            ]
+        },
+        "admit-card": {
+            "title": "Admit Card - BG Jobs",
+            "heading": "🎫 Download Admit Cards 2026",
+            "description": "Download admit cards for all government exams",
+            "items": [
+                {"text": "Bank of India Credit Officer Admit Card 2026", "badge": "hot", "url": "../jobs/bank-of-india-credit-officer-admit-card-2026-out-download-call-letter.html"},
+            ]
+        },
+        "answer-key": {
+            "title": "Answer Key - BG Jobs",
+            "heading": "🔑 Answer Keys 2026",
+            "description": "Download answer keys for all exams",
+            "items": []
+        },
+        "syllabus": {
+            "title": "Syllabus - BG Jobs",
+            "heading": "📋 Exam Syllabus 2026",
+            "description": "Latest exam syllabus and patterns",
+            "items": []
+        },
+        "books": {
+            "title": "Books - BG Jobs",
+            "heading": "📚 Recommended Books 2026",
+            "description": "Best books for government exam preparation",
+            "items": [
+                {"text": "SSC CGL Preparation Books 2026", "badge": "new", "url": "ssc-cgl-preparation-books-2026-best-recommended.html"},
+                {"text": "Banking Exam Books 2026 (IBPS/SBI/RBI)", "badge": "hot", "url": "banking-exam-books-2026-ibps-sbi-rbi-recommended.html"},
+                {"text": "Railway Exam Books 2026 (RRB NTPC/Group D)", "badge": "", "url": "railway-exam-books-2026-rrb-ntpc-group-d.html"},
+            ]
+        }
+    }
+    
+    for folder, data in sample_pages.items():
+        items_html = ""
+        for item in data["items"]:
+            badge_html = f' <span class="badge {item["badge"]}">{item["badge"].capitalize()}</span>' if item["badge"] else ""
+            items_html += f'                        <li><a href="{item["url"]}">{item["text"]}{badge_html}</a></li>\n'
+        
+        page_html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{data["title"]}</title>
+    <meta name="description" content="{data["description"]}">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-top">
+                <div class="header-left">
+                    <h1 class="logo">
+                        <a href="../index.html">BG <span>Jobs</span></a>
+                    </h1>
+                    <button class="mode-toggle" id="modeToggle" title="Toggle Dark/Light Mode" aria-label="Dark/Light Mode Switch">
+                        <span class="icon">🌙</span> Dark Mode
+                    </button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search Jobs, Results, Admit Card...">
+                    <button type="button" id="searchBtn" aria-label="Search">🔍</button>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="container nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../jobs/index.html">Latest Jobs</a>
+                <a href="../results/index.html">Result</a>
+                <a href="../admit-card/index.html">Admit Card</a>
+                <a href="../answer-key/index.html">Answer Key</a>
+                <a href="../syllabus/index.html">Syllabus</a>
+                <a href="../books/index.html">Books</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2 class="section-title">{data["heading"]}</h2>
+            <div class="job-grid-container">
+                <section class="job-card-box" style="grid-column: 1 / -1;">
+                    <div class="box-header bg-green">
+                        <h2>{data["heading"]}</h2>
+                    </div>
+                    <ul class="job-list">
+{items_html}
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p class="copyright">&copy; 2026 {SITE_NAME}. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>'''
+        
+        page_file = BUILD_DIR / folder / "index.html"
+        page_file.write_text(page_html, encoding="utf-8")
+        print(f"✅ {folder}/index.html generated")
+
+# ============================================================
+# .NOJEKYLL & CNAME GENERATION
+# ============================================================
+
+def generate_github_config():
+    """Generate GitHub Pages configuration files"""
+    
+    # .nojekyll file (disable Jekyll processing)
+    nojekyll_file = BUILD_DIR / ".nojekyll"
+    nojekyll_file.write_text("")
+    print("✅ .nojekyll generated")
+    
+    # CNAME file (custom domain - optional)
+    # cname_file = BUILD_DIR / "CNAME"
+    # cname_file.write_text("yourdomain.com")
+    
+    # 404 page
+    html_404 = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - BG Jobs</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <main>
+        <div class="container" style="text-align: center; padding: 100px 20px;">
+            <h1 style="font-size: 4rem; color: #ff6b00;">404</h1>
+            <h2>Page Not Found</h2>
+            <p style="margin: 20px 0;">The page you are looking for might have been removed or is temporarily unavailable.</p>
+            <a href="index.html" style="background: #ff6b00; color: #0a0a0a; padding: 12px 30px; border-radius: 50px; font-weight: 700; display: inline-block; margin-top: 20px;">Go to Homepage</a>
+        </div>
+    </main>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>'''
+    
+    file_404 = BUILD_DIR / "404.html"
+    file_404.write_text(html_404, encoding="utf-8")
+    print("✅ 404.html generated")
+
+# ============================================================
+# MAIN BUILD FUNCTION
+# ============================================================
+
+def build():
+    """Main build function"""
+    print("=" * 60)
+    print(f"🚀 Building {SITE_NAME} - Professional Govt Job Portal")
+    print(f"📅 Build Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("=" * 60)
+    
+    # Clean build directory
+    if BUILD_DIR.exists():
+        shutil.rmtree(BUILD_DIR)
+        print("🧹 Cleaned build directory")
+    
+    # Setup
+    setup_directories()
+    generate_css()
+    generate_js()
+    generate_index_html()
+    generate_sample_pages()
+    generate_github_config()
+    
+    print("=" * 60)
+    print("✅ BUILD COMPLETE!")
+    print(f"📁 Output directory: {BUILD_DIR.absolute()}")
+    print("=" * 60)
+    print("\n📋 To deploy to GitHub Pages:")
+    print("   1. Push the contents of '_build' folder to your GitHub repository")
+    print("   2. Go to Settings > Pages > Source: Deploy from branch")
+    print("   3. Select branch (main/master) and folder (root)")
+    print("   4. Click Save")
+    print("\n🌐 Your site will be live at: " + SITE_URL)
+
+# ============================================================
+# RUN BUILD
+# ============================================================
+
+if __name__ == "__main__":
+    build()
