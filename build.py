@@ -2,10 +2,12 @@ import json
 import os
 import re
 
+# Directory setup
 directories = ["jobs", "results", "admit-card", "answer-key", "syllabus", "current-affairs"]
 for d in directories:
     os.makedirs(d, exist_ok=True)
 
+# Load jobs data
 jobs_data = []
 json_path = "data/jobs.json"
 
@@ -77,19 +79,22 @@ JOB_TEMPLATE_BODY = """
 </div>
 """
 
-job_cards_html = ""
+# Category Data Separation Logic
+categorized_jobs = {d: "" for d in directories}
 
 for job in jobs_data:
     title = job.get("title", "Government Job Alert")
     slug = job.get("slug") or re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+    categories = [c.lower() for c in job.get("categories", [])]
     
+    # 1. Single Detail Page Generation
     schema_json = f"""
     <script type="application/ld+json">
     {{
       "@context": "https://schema.org/",
       "@type": "JobPosting",
       "title": "{title}",
-      "description": "Apply online for {title}. Vacancies: {job.get('vacancies', 'Various')}",
+      "description": "Apply online for {title}.",
       "datePosted": "{job.get('updated_at', '2026-08-07')}",
       "validThrough": "2026-12-31",
       "employmentType": "FULL_TIME",
@@ -119,27 +124,47 @@ for job in jobs_data:
     with open(file_name, "w", encoding="utf-8") as out_file:
         out_file.write(full_html)
 
-    job_cards_html += f"""
-    <a href="{slug}.html" class="card" style="background:#fff; border:1px solid #dee2e6; margin-bottom:10px; border-radius:4px;">
-        <h3 style="color:#0073e6;">{title}</h3>
-        <p><strong>Last Date:</strong> {job.get('last_date', 'N/A')} | <strong>Vacancies:</strong> {job.get('vacancies', 'N/A')}</p>
+    # 2. Card HTML Generation
+    card_html = f"""
+    <a href="../jobs/{slug}.html" class="card" style="background:#fff; border:1px solid #dee2e6; margin-bottom:10px; border-radius:4px; display:block; padding:12px 15px; text-decoration:none;">
+        <h3 style="color:#0073e6; margin:0 0 5px 0;">{title}</h3>
+        <p style="margin:0; color:#666; font-size:14px;"><strong>Last Date:</strong> {job.get('last_date', 'N/A')} | <strong>Vacancies:</strong> {job.get('vacancies', 'N/A')}</p>
     </a>
     """
 
-CATEGORY_INDEX_BODY = f"""
-<div style="background:#fff; padding:20px; border-radius:6px; border:1px solid #dee2e6;">
-    <h1 style="color:#0073e6; border-bottom: 2px solid #0073e6; padding-bottom: 8px;">Latest Job Notifications</h1>
-    <div class="job-list" style="margin-top:15px;">
-        {job_cards_html if job_cards_html else "<p>No active jobs found.</p>"}
-    </div>
-</div>
-"""
+    # Always add to 'jobs' category
+    categorized_jobs["jobs"] += card_html
 
-category_html = HTML_LAYOUT.format(page_title="Latest Jobs - BG Jobs", schema_script="", main_content=CATEGORY_INDEX_BODY)
+    # Filter into Results, Admit Card, etc. based on labels/categories
+    if any(k in c for c in categories for k in ["admit", "call letter", "hall ticket"]):
+        categorized_jobs["admit-card"] += card_html
+    if any(k in c for c in categories for k in ["result", "merit", "marks", "exam date"]):
+        categorized_jobs["results"] += card_html
+    if any(k in c for c in categories for k in ["answer key", "key"]):
+        categorized_jobs["answer-key"] += card_html
+    if any(k in c for c in categories for k in ["syllabus", "pattern"]):
+        categorized_jobs["syllabus"] += card_html
+    if any(k in c for c in categories for k in ["current affairs"]):
+        categorized_jobs["current-affairs"] += card_html
 
+# 3. Generate Category-Specific Listing Pages
 for d in directories:
+    cards = categorized_jobs[d]
+    display_title = d.replace('-', ' ').title()
+    
+    content_body = f"""
+    <div style="background:#fff; padding:20px; border-radius:6px; border:1px solid #dee2e6;">
+        <h1 style="color:#0073e6; border-bottom: 2px solid #0073e6; padding-bottom: 8px;">{display_title} Updates</h1>
+        <div class="job-list" style="margin-top:15px;">
+            {cards if cards else f"<p style='padding:15px; color:#666;'>No active updates available in {display_title} right now.</p>"}
+        </div>
+    </div>
+    """
+    
     target_index = f"{d}/index.html"
+    category_html = HTML_LAYOUT.format(page_title=f"{display_title} - BG Jobs", schema_script="", main_content=content_body)
+    
     with open(target_index, "w", encoding="utf-8") as f:
         f.write(category_html)
 
-print("🚀 Site Build Successful!")
+print("🚀 Site Build Successful with Filtered Category Pages!")
