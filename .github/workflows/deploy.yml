@@ -27,6 +27,20 @@ jobs:
       - name: Generate HTML Pages
         run: python build.py
       
+      - name: Commit Generated HTML Files
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git add jobs/index.html jobs/*.html 2>/dev/null || true
+          git add results/index.html 2>/dev/null || true
+          git add admit-card/index.html 2>/dev/null || true
+          git add answer-key/index.html 2>/dev/null || true
+          git add syllabus/index.html 2>/dev/null || true
+          git add books/index.html 2>/dev/null || true
+          git status
+          git diff --staged --quiet || (git commit -m "🤖 Auto-build HTML pages from jobs.json" && git push origin main)
+      
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4  # ✅ v4 uses Node.js 24
         with:
