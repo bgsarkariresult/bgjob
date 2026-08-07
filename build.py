@@ -20,25 +20,62 @@ if os.path.exists(json_path):
 else:
     print(f"⚠️ {json_path} not found!")
 
-# 2. HTML Template for Single Job Page
+# 2. HTML Template for Single Job Page with Schema & Header/Footer
 JOB_TEMPLATE = """<!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} - BGJob</title>
+    <title>{title} | BG Jobs</title>
+    <meta name="description" content="{title} - Get eligibility, vacancies, last date, and direct apply link.">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Job Posting Schema -->
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org/",
+      "@type": "JobPosting",
+      "title": "{title}",
+      "description": "Apply online for {title}...",
+      "identifier": {{
+        "@type": "PropertyValue",
+        "name": "BGJobs",
+        "value": "{slug}"
+      }},
+      "datePosted": "{date_posted}",
+      "validThrough": "{last_date}",
+      "employmentType": "FULL_TIME",
+      "hiringOrganization": {{
+        "@type": "Organization",
+        "name": "{organization}",
+        "sameAs": "https://bgsarkariresult.github.io/bgjob/"
+      }},
+      "jobLocation": {{
+        "@type": "Place",
+        "address": {{
+          "@type": "PostalAddress",
+          "addressCountry": "IN"
+        }}
+      }}
+    }}
+    </script>
     <style>
-        body {{ font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background: #f4f6f9; color: #333; }}
-        .container {{ max-width: 900px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
-        h1 {{ color: #0073e6; font-size: 24px; }}
-        .info-box {{ background: #e8f4fd; padding: 15px; border-left: 4px solid #0073e6; margin-bottom: 20px; border-radius: 4px; }}
+        .container-job {{ max-width: 900px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
+        .info-box {{ background: #e8f4fd; padding: 15px; border-left: 4px solid #0b7a2f; margin-bottom: 20px; border-radius: 4px; }}
         .btn {{ display: inline-block; padding: 12px 24px; color: #fff; text-decoration: none; font-weight: bold; border-radius: 5px; margin: 5px; }}
         .btn-apply {{ background-color: #28a745; }}
         .btn-pdf {{ background-color: #0073e6; }}
     </style>
 </head>
 <body>
-    <div class="container">
+    <header class="site-header">
+        <div class="container header-flex">
+            <a href="../index.html" class="logo">BG <span>Jobs</span></a>
+        </div>
+    </header>
+
+    <main class="container-job">
         <p><a href="../index.html">← Back to Home</a></p>
         <h1>{title}</h1>
         <div class="info-box">
@@ -56,58 +93,34 @@ JOB_TEMPLATE = """<!DOCTYPE html>
             <a href="{pdf_url}" target="_blank" class="btn btn-pdf">📄 Download Official PDF</a>
             <a href="{apply_url}" target="_blank" class="btn btn-apply">🔗 Apply Online Direct Link</a>
         </div>
-    </div>
+    </main>
+
+    <footer class="site-footer" style="margin-top:40px; text-align:center; padding:20px; background:#222; color:#fff;">
+        <p>&copy; 2026 BG Jobs. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
 """
 
-# 3. HTML Template for Homepage (index.html)
-INDEX_TEMPLATE = """<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BGJob - Latest Government Jobs 2026</title>
-    <style>
-        body {{ font-family: Arial, sans-serif; margin: 0; background: #f4f6f9; color: #333; }}
-        .header {{ background: #0073e6; color: #fff; padding: 20px; text-align: center; }}
-        .container {{ max-width: 900px; margin: 20px auto; padding: 0 15px; }}
-        .job-card {{ background: #fff; padding: 18px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }}
-        .job-card h2 {{ margin: 0 0 10px 0; font-size: 18px; }}
-        .job-card a {{ color: #0073e6; text-decoration: none; font-weight: bold; }}
-        .job-card a:hover {{ text-decoration: underline; }}
-        .job-meta {{ font-size: 14px; color: #666; margin: 0; }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>BGGovtJobs - Latest Jobs & Notification Portal</h1>
-    </div>
-    <div class="container">
-        <h2>Latest Recruitment Notifications 2026</h2>
-        {job_cards}
-    </div>
-</body>
-</html>
-"""
-
-# 4. Generate Job Detail Pages
-job_cards_html = ""
-
+# 3. Generate Job Detail Pages Only
 for job in jobs_data:
     title = job.get("title", "Government Job Alert 2026")
     slug = job.get("slug") or re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
     vacancies = job.get("vacancies", "Various")
-    last_date = job.get("last_date", "Check Portal")
+    last_date = job.get("last_date", "2026-12-31")
+    date_posted = job.get("date_posted", "2026-08-01")
+    organization = job.get("organization", "Govt Organization")
     
-    # Generate HTML Page for Job
     html_out = JOB_TEMPLATE.format(
         title=title,
+        slug=slug,
         vacancies=vacancies,
         qualification=job.get("qualification", "Check Official Notice"),
         age_limit=job.get("age_limit", "18-35 Years"),
         last_date=last_date,
-        content_html=job.get("content_html", "<p>Check details above.</p>"),
+        date_posted=date_posted,
+        organization=organization,
+        content_html=job.get("content_html", "<p>Check official notification details above.</p>"),
         apply_url=job.get("apply_url", "#"),
         pdf_url=job.get("pdf_url", "#")
     )
@@ -115,20 +128,6 @@ for job in jobs_data:
     file_name = f"jobs/{slug}.html"
     with open(file_name, "w", encoding="utf-8") as out_file:
         out_file.write(html_out)
-    
-    # Prepare Homepage Card
-    job_cards_html += f"""
-    <div class="job-card">
-        <h2><a href="jobs/{slug}.html">{title}</a></h2>
-        <p class="job-meta">Total Vacancies: {vacancies} | Last Date: {last_date}</p>
-    </div>
-    """
+    print(f"Generated: {file_name}")
 
-# 5. Generate Homepage (index.html)
-if not job_cards_html:
-    job_cards_html = "<p>No jobs added yet.</p>"
-
-with open("index.html", "w", encoding="utf-8") as index_file:
-    index_file.write(INDEX_TEMPLATE.format(job_cards=job_cards_html))
-
-print("🚀 Successfully generated all job pages and index.html!")
+print("🚀 All job post pages generated successfully in /jobs/ folder!")
